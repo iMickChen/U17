@@ -49,7 +49,7 @@ class UPageViewController: UBaseViewController {
         let index = segment.selectedSegmentIndex
         if currentSelectIndex != index {
             let target:[UIViewController] = [vcs[index]]
-            let direction:UIPageViewControllerNavigationDirection = currentSelectIndex > index ? .reverse : .forward
+            let direction:UIPageViewController.NavigationDirection = currentSelectIndex > index ? .reverse : .forward
             pageVC.setViewControllers(target, direction: direction, animated: false) { [weak self] (finish) in
                 self?.currentSelectIndex = index
             }
@@ -58,7 +58,7 @@ class UPageViewController: UBaseViewController {
     
     override func configUI() {
         guard let vcs = vcs else { return }
-        addChildViewController(pageVC)
+        addChild(pageVC)
         view.addSubview(pageVC.view)
         
         pageVC.dataSource = self
@@ -68,23 +68,23 @@ class UPageViewController: UBaseViewController {
         switch pageStyle {
         case .none:
             pageVC.view.snp.makeConstraints { $0.edges.equalToSuperview() }
-        case .navgationBarSegment:
+        case .navgationBarSegment?:
             segment.backgroundColor = UIColor.clear
-            segment.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white.withAlphaComponent(0.5),
-                                           NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20)]
-            segment.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,
-                                                   NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20)]
+            segment.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.5),
+                                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)]
+            segment.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
+                                                   NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)]
             segment.selectionIndicatorLocation = .none
             
             navigationItem.titleView = segment
             segment.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 120, height: 40)
             
             pageVC.view.snp.makeConstraints { $0.edges.equalToSuperview() }
-        case .topTabBar:
-            segment.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black,
-                                           NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)]
-            segment.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 127, g: 221, b: 146),
-                                                   NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)]
+        case .topTabBar?:
+            segment.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black,
+                                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)]
+            segment.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(r: 127, g: 221, b: 146),
+                                                   NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)]
             segment.selectionIndicatorLocation = .down
             segment.selectionIndicatorColor = UIColor(r: 127, g: 221, b: 146)
             segment.selectionIndicatorHeight = 2
